@@ -1,26 +1,11 @@
+mod github;
+
 use argh::FromArgs;
 use dialoguer::{theme::ColorfulTheme, Input, Select};
-use regex::Regex;
 
 #[derive(FromArgs)]
 /// Experimental CLI for managing GitHub issues label.
 struct Pittacia {}
-
-fn extract_info_from_gh_link(link: &str) -> (String, String) {
-    let re = Regex::new(r"https://github\.com/(?P<username>[^/]+)/(?P<repo>[^/]+)").unwrap();
-
-    if let Some(captures) = re.captures(link) {
-        let username = captures.name("username").unwrap().as_str();
-        let mut repo = captures.name("repo").unwrap().as_str().to_string();
-        if repo.ends_with(".git") {
-            repo = repo.replace(".git", "");
-        }
-
-        return (username.to_string(), repo.to_string());
-    }
-
-    ("".to_string(), "".to_string())
-}
 
 fn main() {
     let _pittacia: Pittacia = argh::from_env();
@@ -49,7 +34,7 @@ fn main() {
                 .interact_text()
                 .unwrap();
 
-            let (username, repo) = extract_info_from_gh_link(&github_link);
+            let (username, repo) = github::extract_from_link(&github_link);
 
             if username.is_empty() || repo.is_empty() {
                 println!("Invalid GitHub repository URL");
