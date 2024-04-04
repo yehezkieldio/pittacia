@@ -4,13 +4,13 @@ use argh::FromArgs;
 use dialoguer::{theme::ColorfulTheme, Input, Select};
 
 #[derive(FromArgs)]
-/// Experimental CLI for managing GitHub issues label.
+/// Experimental CLI for managing GitHub issue labels.
 struct Pittacia {}
 
 fn main() {
     let _pittacia: Pittacia = argh::from_env();
 
-    println!("pittacia - Experimental CLI for managing GitHub issues label.");
+    println!("pittacia - Experimental CLI for managing GitHub issue labels.");
 
     let selections = &[
         "Current directory as repository",
@@ -26,7 +26,8 @@ fn main() {
 
     match selection {
         Some(0) => {
-            println!("Current directory as repository");
+            let info = github::extract_from_local();
+            println!("{:?}", info.unwrap());
         }
         Some(1) => {
             let github_link: String = Input::with_theme(&ColorfulTheme::default())
@@ -34,18 +35,11 @@ fn main() {
                 .interact_text()
                 .unwrap();
 
-            let (username, repo) = github::extract_from_link(&github_link);
-
-            if username.is_empty() || repo.is_empty() {
-                println!("Invalid GitHub repository URL");
-                return;
-            }
-
-            println!("Username: {}", username);
-            println!("Repository: {}", repo);
+            let info = github::extract_from_link(&github_link);
+            println!("{:?}", info.unwrap());
         }
         _ => {
-            println!("No selection made");
+            print!("Invalid selection or no selection made.");
         }
     }
 }
