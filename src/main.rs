@@ -4,12 +4,14 @@ mod labels;
 use argh::FromArgs;
 use dialoguer::{theme::ColorfulTheme, Input, Select};
 use github::GitHub;
+use labels::Label;
 
+#[derive(Debug)]
 pub struct Labels {
-    path: String,
-    labels: Vec<String>,
+    labels: Vec<Label>,
 }
 
+#[derive(Debug)]
 pub struct Configuration {
     git: GitHub,
     labels: Labels,
@@ -26,10 +28,7 @@ fn main() {
             username: "".to_string(),
             repo: "".to_string(),
         },
-        labels: Labels {
-            path: "".to_string(),
-            labels: vec![],
-        },
+        labels: Labels { labels: vec![] },
     };
 
     println!("pittacia - Experimental CLI for managing GitHub issue labels.");
@@ -71,7 +70,6 @@ fn main() {
             match info {
                 Ok(info) => {
                     configuration.git = info;
-                    println!("{:?}", configuration.git);
                 }
                 Err(_) => {
                     println!("Could not extract information from the provided URL.");
@@ -97,13 +95,38 @@ fn main() {
 
     match selection {
         Some(0) => {
-            println!("Not implemented yet.")
+            let labels = labels::extract_default();
+
+            match labels {
+                Ok(labels) => {
+                    configuration.labels.labels = labels;
+                }
+                Err(_) => {
+                    println!("Could not extract labels from the default file.");
+                }
+            }
         }
         Some(1) => {
-            println!("Not implemented yet.")
+            let path: String = Input::with_theme(&ColorfulTheme::default())
+                .with_prompt("Enter the path to the JSON file")
+                .interact_text()
+                .unwrap();
+
+            let labels = labels::extract_from_path(&path);
+
+            match labels {
+                Ok(labels) => {
+                    configuration.labels.labels = labels;
+                }
+                Err(_) => {
+                    println!("Could not extract labels from the provided path.");
+                }
+            }
         }
         _ => {
             print!("Invalid selection or no selection made.");
         }
     }
+
+    println!("{:?}", configuration);
 }
