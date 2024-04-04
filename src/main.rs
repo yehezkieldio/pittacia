@@ -81,4 +81,28 @@ fn main() {
             print!("Invalid selection or no selection made.");
         }
     }
+
+    let selections = &[
+        "Use a default set of labels",
+        "Provide a path to a JSON file",
+    ];
+
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Select how you want to manage labels")
+        .default(0)
+        .items(&selections[..])
+        .interact_opt()
+        .unwrap();
+
+    match selection {
+        Some(0) => {
+            println!("Not implemented yet.")
+        }
+        Some(1) => {
+            println!("Not implemented yet.")
+        }
+        _ => {
+            print!("Invalid selection or no selection made.");
+        }
+    }
 }
