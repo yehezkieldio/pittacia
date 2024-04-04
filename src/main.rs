@@ -5,6 +5,7 @@ use argh::FromArgs;
 use dialoguer::{theme::ColorfulTheme, Input, Select};
 use github::GitHub;
 use labels::Label;
+use octocrab::Octocrab;
 
 #[derive(Debug)]
 pub struct Labels {
@@ -12,16 +13,35 @@ pub struct Labels {
 }
 
 #[derive(Debug)]
+pub struct Options {
+    override_existing: bool,
+}
+
+#[derive(Debug)]
 pub struct Configuration {
+    token: String,
     git: GitHub,
     labels: Labels,
+    opts: Options,
 }
+
+// async fn test_label(instance: Octocrab) -> octocrab::Result<()> {
+//     let create_label = instance
+//         .issues("yehezkieldio", "CollegeVisualBasic")
+//         .create_label("test label", "fff", "test label")
+//         .await?;
+
+//     println!("{:?}", create_label);
+
+//     Ok(())
+// }
 
 #[derive(FromArgs)]
 /// Experimental CLI for managing GitHub issue labels.
 struct Pittacia {}
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let _pittacia: Pittacia = argh::from_env();
     let mut configuration = Configuration {
         git: GitHub {
@@ -29,9 +49,36 @@ fn main() {
             repo: "".to_string(),
         },
         labels: Labels { labels: vec![] },
+        opts: Options {
+            override_existing: false,
+        },
+        token: "".to_string(),
     };
 
     println!("pittacia - Experimental CLI for managing GitHub issue labels.");
+
+    let token: String = Input::with_theme(&ColorfulTheme::default())
+        .with_prompt("Enter your GitHub personal access token")
+        .interact_text()
+        .unwrap();
+
+    configuration.token = token;
+
+    let octocrab = Octocrab::builder()
+        .personal_token(configuration.token.clone())
+        .build()
+        .unwrap();
+
+    match octocrab.repos("yehezkieldio", "pittacia").get().await {
+        Ok(_) => {
+            println!("GitHub personal access token is valid.");
+        }
+        Err(_) => {
+            println!("Please provide a valid GitHub personal access token.");
+
+            return;
+        }
+    }
 
     let selections = &[
         "Current directory as repository",
@@ -128,5 +175,38 @@ fn main() {
         }
     }
 
-    println!("{:?}", configuration);
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Override existing labels?")
+        .default(0)
+        .items(&["Yes", "No"])
+        .interact_opt()
+        .unwrap();
+
+    match selection {
+        Some(0) => {
+            configuration.opts.override_existing = true;
+        }
+        Some(1) => {
+            configuration.opts.override_existing = false;
+        }
+        _ => {
+            print!("Invalid selection or no selection made.");
+        }
+    }
+
+    if configuration.opts.override_existing {
+        println!("Removing all labels from the repository.");
+
+        labels::remove_all_labels_from_repo(&configuration, &octocrab)
+            .await
+            .unwrap();
+    }
+
+    println!("Creating labels in the repository.");
+
+    labels::append_to_repo(&configuration, &octocrab)
+        .await
+        .unwrap();
+
+    println!("Labels have been successfully created.");
 }
