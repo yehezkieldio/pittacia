@@ -1,0 +1,21 @@
+[
+    { "name": "priority: critical priority", "color": "b60205", "description": "Highest priority issue that needs immediate attention." },
+    { "name": "priority: high priority", "color": "d73a4a", "description": "High priority issue that should be addressed soon." },
+    { "name": "priority: low priority", "color": "bfdadc", "description": "Low priority issue that can be postponed." },
+    { "name": "priority: medium priority", "color": "f2c800", "description": "Medium priority issue that requires attention but not immediately." },
+    { "name": "status: blocked", "color": "cfd3d7", "description": "Issue that cannot proceed until a certain condition is met." },
+    { "name": "status: done", "color": "c5def5", "description": "Issue that has been completed." },
+    { "name": "status: in progress", "color": "fbca04", "description": "Issue that is currently being worked on." },
+    { "name": "status: ready to merge", "color": "2cbe4e", "description": "Issue that is ready for merging with the main codebase." },
+    { "name": "status: review needed", "color": "fef2c0", "description": "Issue that needs to be reviewed by someone else." },
+    { "name": "status: on hold", "color": "f5a623", "description": "Issue that is temporarily paused." },
+    { "name": "type: bug", "color": "d73a4a", "description": "Issue related to a defect in the code." },
+    { "name": "type: documentation", "color": "0075ca", "description": "Issue related to the project's documentation." },
+    { "name": "type: enhancement", "color": "a2eeef", "description": " Issue related to improving an existing feature." },
+    { "name": "type: feature", "color": "fbca04", "description": "Issue related to adding a new feature." },
+    { "name": "type: maintenance", "color": "f2c800", "description": "Issue related to maintaining the codebase." },
+    { "name": "type: testing", "color": "008080", "description": "Issue related to testing the code." },
+    { "name": "type: question", "color": "d4c5f9", "description": "Issue where the user is seeking clarification or guidance." },
+    { "name": "type: support", "color": "6f42c1", "description": "Issue related to providing support to the user." },
+    { "name": "type: deployment", "color": "85144b", "description": " Issue related to deploying the project to a server or environment." }
+  ]

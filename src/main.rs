@@ -1,4 +1,5 @@
 mod github;
+mod labels;
 
 use argh::FromArgs;
 use dialoguer::{theme::ColorfulTheme, Input, Select};
