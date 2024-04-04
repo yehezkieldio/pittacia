@@ -5,8 +5,8 @@ use regex::Regex;
 #[derive(Debug)]
 #[allow(dead_code)]
 pub struct GitHub {
-    username: String,
-    repo: String,
+    pub username: String,
+    pub repo: String,
 }
 
 ///

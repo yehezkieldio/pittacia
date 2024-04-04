@@ -2,6 +2,17 @@ mod github;
 
 use argh::FromArgs;
 use dialoguer::{theme::ColorfulTheme, Input, Select};
+use github::GitHub;
+
+pub struct Labels {
+    path: String,
+    labels: Vec<String>,
+}
+
+pub struct Configuration {
+    git: GitHub,
+    labels: Labels,
+}
 
 #[derive(FromArgs)]
 /// Experimental CLI for managing GitHub issue labels.
@@ -9,6 +20,16 @@ struct Pittacia {}
 
 fn main() {
     let _pittacia: Pittacia = argh::from_env();
+    let mut configuration = Configuration {
+        git: GitHub {
+            username: "".to_string(),
+            repo: "".to_string(),
+        },
+        labels: Labels {
+            path: "".to_string(),
+            labels: vec![],
+        },
+    };
 
     println!("pittacia - Experimental CLI for managing GitHub issue labels.");
 
@@ -26,8 +47,17 @@ fn main() {
 
     match selection {
         Some(0) => {
-            let info = github::extract_from_local();
-            println!("{:?}", info.unwrap());
+            let information = github::extract_from_local();
+
+            match information {
+                Ok(info) => {
+                    configuration.git = info;
+                    println!("{:?}", configuration.git);
+                }
+                Err(_) => {
+                    println!("Could not extract information from the current directory.");
+                }
+            }
         }
         Some(1) => {
             let github_link: String = Input::with_theme(&ColorfulTheme::default())
@@ -36,7 +66,16 @@ fn main() {
                 .unwrap();
 
             let info = github::extract_from_link(&github_link);
-            println!("{:?}", info.unwrap());
+
+            match info {
+                Ok(info) => {
+                    configuration.git = info;
+                    println!("{:?}", configuration.git);
+                }
+                Err(_) => {
+                    println!("Could not extract information from the provided URL.");
+                }
+            }
         }
         _ => {
             print!("Invalid selection or no selection made.");
