@@ -25,17 +25,6 @@ pub struct Configuration {
     opts: Options,
 }
 
-// async fn test_label(instance: Octocrab) -> octocrab::Result<()> {
-//     let create_label = instance
-//         .issues("yehezkieldio", "CollegeVisualBasic")
-//         .create_label("test label", "fff", "test label")
-//         .await?;
-
-//     println!("{:?}", create_label);
-
-//     Ok(())
-// }
-
 #[derive(FromArgs)]
 /// Experimental CLI for managing GitHub issue labels.
 struct Pittacia {}
@@ -99,7 +88,6 @@ async fn main() {
             match information {
                 Ok(info) => {
                     configuration.git = info;
-                    println!("{:?}", configuration.git);
                 }
                 Err(_) => {
                     println!("Could not extract information from the current directory.");
@@ -188,6 +176,38 @@ async fn main() {
         }
         Some(1) => {
             configuration.opts.override_existing = false;
+        }
+        _ => {
+            print!("Invalid selection or no selection made.");
+        }
+    }
+
+    println!("Configuration:");
+    println!(
+        "GitHub repository: {}/{}",
+        configuration.git.username, configuration.git.repo
+    );
+    println!("Number of labels: {}", configuration.labels.labels.len());
+    println!(
+        "Override existing labels: {}",
+        configuration.opts.override_existing
+    );
+
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Is the information correct?")
+        .default(0)
+        .items(&["Yes", "No"])
+        .interact_opt()
+        .unwrap();
+
+    match selection {
+        Some(0) => {
+            println!("Proceeding with the configuration.");
+        }
+        Some(1) => {
+            println!("Exiting the program.");
+
+            return;
         }
         _ => {
             print!("Invalid selection or no selection made.");

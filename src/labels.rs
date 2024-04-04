@@ -1,5 +1,6 @@
 use std::error::Error;
 
+use indicatif::ProgressBar;
 use octocrab::Octocrab;
 use serde::{Deserialize, Serialize};
 
@@ -68,6 +69,8 @@ pub async fn remove_all_labels_from_repo(
         .send()
         .await?;
 
+    let bar = ProgressBar::new(labels.clone().into_iter().len() as u64);
+
     for label in labels {
         let encoded_name = urlencoding::encode(&label.name);
 
@@ -75,7 +78,11 @@ pub async fn remove_all_labels_from_repo(
             .issues(username, repo)
             .delete_label(&encoded_name)
             .await?;
+
+        bar.inc(1);
     }
+
+    bar.finish();
 
     Ok(())
 }
@@ -87,12 +94,19 @@ pub async fn append_to_repo(
     config: &Configuration,
     instance: &Octocrab,
 ) -> Result<(), Box<dyn Error>> {
-    Ok(for label in &config.labels.labels {
+    let bar = ProgressBar::new(config.labels.labels.len() as u64);
+
+    for label in &config.labels.labels {
         let username = &config.git.username;
         let repo = &config.git.repo;
 
         create_label(instance.clone(), username, repo, label).await?;
-    })
+
+        bar.inc(1);
+    }
+
+    bar.finish();
+    Ok(())
 }
 
 ///
