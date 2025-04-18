@@ -1,21 +1,112 @@
 [
-    { "name": "priority: critical priority", "color": "b60205", "description": "Highest priority issue that needs immediate attention." },
-    { "name": "priority: high priority", "color": "d73a4a", "description": "High priority issue that should be addressed soon." },
-    { "name": "priority: low priority", "color": "bfdadc", "description": "Low priority issue that can be postponed." },
-    { "name": "priority: medium priority", "color": "f2c800", "description": "Medium priority issue that requires attention but not immediately." },
-    { "name": "status: blocked", "color": "cfd3d7", "description": "Issue that cannot proceed until a certain condition is met." },
-    { "name": "status: done", "color": "c5def5", "description": "Issue that has been completed." },
-    { "name": "status: in progress", "color": "fbca04", "description": "Issue that is currently being worked on." },
-    { "name": "status: ready to merge", "color": "2cbe4e", "description": "Issue that is ready for merging with the main codebase." },
-    { "name": "status: review needed", "color": "fef2c0", "description": "Issue that needs to be reviewed by someone else." },
-    { "name": "status: on hold", "color": "f5a623", "description": "Issue that is temporarily paused." },
-    { "name": "type: bug", "color": "d73a4a", "description": "Issue related to a defect in the code." },
-    { "name": "type: documentation", "color": "0075ca", "description": "Issue related to the project's documentation." },
-    { "name": "type: enhancement", "color": "a2eeef", "description": " Issue related to improving an existing feature." },
-    { "name": "type: feature", "color": "fbca04", "description": "Issue related to adding a new feature." },
-    { "name": "type: maintenance", "color": "f2c800", "description": "Issue related to maintaining the codebase." },
-    { "name": "type: testing", "color": "008080", "description": "Issue related to testing the code." },
-    { "name": "type: question", "color": "d4c5f9", "description": "Issue where the user is seeking clarification or guidance." },
-    { "name": "type: support", "color": "6f42c1", "description": "Issue related to providing support to the user." },
-    { "name": "type: deployment", "color": "85144b", "description": " Issue related to deploying the project to a server or environment." }
-  ]
+  {
+    "name": "priority: critical",
+    "color": "f38ba8",
+    "description": "Urgent issue that requires immediate resolution."
+  },
+  {
+    "name": "priority: high",
+    "color": "eba0ac",
+    "description": "High-priority issue that should be addressed soon."
+  },
+  {
+    "name": "priority: medium",
+    "color": "f9e2af",
+    "description": "Moderate priority. Needs attention but not urgent."
+  },
+  {
+    "name": "priority: low",
+    "color": "a6e3a1",
+    "description": "Low-priority task that can be scheduled later."
+  },
+  {
+    "name": "status: blocked",
+    "color": "cdd6f4",
+    "description": "Cannot proceed until a blocker is resolved."
+  },
+  {
+    "name": "status: in progress",
+    "color": "f5c2e7",
+    "description": "Currently being worked on."
+  },
+  {
+    "name": "status: review needed",
+    "color": "fab387",
+    "description": "Needs code or design review before proceeding."
+  },
+  {
+    "name": "status: ready to merge",
+    "color": "a6e3a1",
+    "description": "Reviewed and approved. Ready to be merged."
+  },
+  {
+    "name": "status: done",
+    "color": "94e2d5",
+    "description": "Completed and verified."
+  },
+  {
+    "name": "status: on hold",
+    "color": "f9e2af",
+    "description": "Paused temporarily. Will resume later."
+  },
+  {
+    "name": "status: needs info",
+    "color": "89b4fa",
+    "description": "Requires additional information to proceed."
+  },
+  {
+    "name": "status: stale",
+    "color": "bac2de",
+    "description": "Inactive for a while. Needs follow-up or will be closed."
+  },
+  {
+    "name": "type: bug",
+    "color": "f38ba8",
+    "description": "Something is broken or not working as expected."
+  },
+  {
+    "name": "type: feature",
+    "color": "89dceb",
+    "description": "New feature or functionality."
+  },
+  {
+    "name": "type: enhancement",
+    "color": "74c7ec",
+    "description": "Improvements to existing functionality."
+  },
+  {
+    "name": "type: documentation",
+    "color": "94e2d5",
+    "description": "Docs or content-related task."
+  },
+  {
+    "name": "type: maintenance",
+    "color": "cba6f7",
+    "description": "Codebase upkeep, refactoring, or dependency updates."
+  },
+  {
+    "name": "type: testing",
+    "color": "a6adc8",
+    "description": "Testing or QA-related task."
+  },
+  {
+    "name": "type: deployment",
+    "color": "fab387",
+    "description": "Deployment or infrastructure-related task."
+  },
+  {
+    "name": "type: support",
+    "color": "b4befe",
+    "description": "User or technical support."
+  },
+  {
+    "name": "type: question",
+    "color": "f2cdcd",
+    "description": "Asking for clarification, advice, or help."
+  },
+  {
+    "name": "type: discussion",
+    "color": "cdd6f4",
+    "description": "Open-ended discussion or brainstorming topic."
+  }
+]
